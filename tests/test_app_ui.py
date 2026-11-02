@@ -30,3 +30,15 @@ def test_app_preset_selection():
     scenario_sb.select("High Electricity Price Peak").run()
     assert not at.exception
     assert at.session_state["selected_scenario_id"] == "high_price_peak"
+
+
+def test_app_reset_defaults_button():
+    """Verify reset defaults button restores parameters and runs cleanly."""
+    at = AppTest.from_file(APP_PATH, default_timeout=30).run()
+    assert not at.exception
+
+    # Click Reset Defaults button (the second button in the sidebar)
+    reset_btn = at.sidebar.button[1]
+    assert "Reset Defaults" in reset_btn.label
+    reset_btn.click().run()
+    assert not at.exception
